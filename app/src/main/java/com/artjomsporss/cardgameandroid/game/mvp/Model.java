@@ -30,6 +30,8 @@ public class Model {
     private Hand attacker;
     private Hand defender;
 
+    private static char trumps;
+
     private StepPhases phase = StepPhases.ATTACK;
 
     /**
@@ -42,7 +44,7 @@ public class Model {
     public void prepareDeck(Context context){
         this.deck = new Deck(context);
         this.deck.shuffleDeck();
-        this.deck.setTrump();
+        this.trumps = this.deck.setTrump();
     }
 
     /**
@@ -64,16 +66,41 @@ public class Model {
     public void drawBottomHandOfCards(){ this.deck.drawHand(this.bottomHand); }
 
     /**
-     * Makes changes in model's state depending on at which
-     * phase of turn and which card is it clicked
-     * @param view is clicked card's view
+     * Calls methods that related to current turn phase to handle card onclick event
+     * @param card is clicked card's view
      */
-    public void cardClicked(View view){
+    public void cardClicked(Card card){
         switch(this.phase){
-            case ATTACK: /* do something */ break;
-            case DEFEND: /* do something */ break;
-            case ADD: /* do something */ break;
+            case ATTACK: attackPhase(card); break;
+            case DEFEND: defendPhase(card); break;
+            case ADD: addPhase(card); break;
         }
+    }
+
+
+    //If card clicked belongs to attacker, move it to the table
+    public void attackPhase(Card card){
+        if(defender.hasCard(card)){return;} //if it's defender's card, leave it where it is
+        attacker.moveCardToTable(card, this.table);
+
+        this.phase = StepPhases.DEFEND;
+        Toast.makeText(GameActivity.context, this.defender.getName() + " defends"
+                , Toast.LENGTH_SHORT).show();
+    }
+
+    public void defendPhase(Card card){
+        if(attacker.hasCard(card)){return;} // if it's attacker's card, do nothing
+        if(this.table.cardCanBeat(card)) {  //if card
+            defender.moveCardToTable(card, this.table);
+        }else{return; }
+
+        this.phase = StepPhases.ADD;
+        Toast.makeText(GameActivity.context, this.attacker.getName() + " can add cards to table"
+                , Toast.LENGTH_SHORT).show();
+    }
+
+    //TODO after defend phase attacker can add cards (if have valid ones)
+    private void addPhase(Card card) {
     }
 
     //TODO after onCardClick - to implement turn's phase-dependent actions on button click
@@ -85,7 +112,6 @@ public class Model {
         int topHandInt = 15;
         int bottomHandInt = 15;
 
-        //TODO iterate through cards, if its trump and handLowestTrump is higher than it's value, set it
         for(Card c : topHandCards){
             if(c.getSuit() == this.deck.getTrumps()){
                 if(c.getRankInt() < topHandInt){
@@ -102,7 +128,7 @@ public class Model {
             }
         }
 
-        Log.d("TOP/DOWN", topHandInt + " " + bottomHandInt);
+        //Log.d("TOP/DOWN", topHandInt + " " + bottomHandInt);
 
         if(topHandInt < bottomHandInt){
             this.attacker = this.topHand;
@@ -121,7 +147,7 @@ public class Model {
             }
         }
         Toast.makeText(GameActivity.context, this.attacker.getName() + " makes first move"
-                , Toast.LENGTH_LONG).show();
+                , Toast.LENGTH_SHORT).show();
     }
 
     public ArrayList<Card> getDeckCards(){
@@ -136,4 +162,15 @@ public class Model {
         return new ArrayList<Card>(this.bottomHand.getCards());
     }
 
+    public ArrayList<Card> getTableCards() {
+        return new ArrayList<Card>(this.table.getCards());
+    }
+
+    public void setupTable() {
+        this.table = new Table();
+    }
+
+    public static char getTrumps() {
+        return trumps;
+    }
 }
