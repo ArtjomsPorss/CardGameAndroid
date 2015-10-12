@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.artjomsporss.cardgameandroid.GameActivity;
+import com.artjomsporss.cardgameandroid.game.Card;
 
 /**
  * Created by artash on 02/10/15.
@@ -22,18 +23,19 @@ public class Presenter {
 
         model.prepareDeck(this.context);
         model.prepareHands();
+        model.setupTable();
 
-        this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards());
+        this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards(), model.getTableCards());
 
         model.determineAttacker();
     }
 
     //TODO working on implementing on card click method
     public void onCardClick(View view){
-        this.model.cardClicked(view);
+        this.model.cardClicked((Card)view);
 
         //.. then redraw state in game
-        this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards());
+        this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards(), model.getTableCards());
     }
 
     public void onActionButtonClick(View view){
