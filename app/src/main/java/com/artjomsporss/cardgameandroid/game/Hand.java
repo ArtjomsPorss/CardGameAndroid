@@ -24,4 +24,18 @@ public class Hand {
     public void setCards(ArrayList<Card> cards){
         this.cards = cards;
     }
+
+    public boolean hasCard(Card c){
+        if(cards.contains(c)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public void moveCardToTable(Card card, Table table){
+        if(cards.remove(card)) {
+            table.putCardOnTable(card);
+        }
+    }
 }

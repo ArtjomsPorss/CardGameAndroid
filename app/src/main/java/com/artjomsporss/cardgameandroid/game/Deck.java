@@ -124,10 +124,11 @@ public class Deck {
     /**
      * sets the trump card for this game
      */
-    public void setTrump(){
+    public char setTrump(){
         int last = deck.size() - 1;
         this.trumps = this.deck.get(last).getSuit();
         //Log.d("TRUMPS-SETTRUMPS", deck.get(deck.size() - 1).getRankStr() + deck.get(deck.size() - 1).getSuit());
+        return this.trumps;
     }
 
     public char getTrumps(){

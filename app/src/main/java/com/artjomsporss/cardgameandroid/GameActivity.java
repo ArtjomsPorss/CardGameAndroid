@@ -76,49 +76,34 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    public void onCardClick(View view){
-        //MOVES CARD FROM ANYWHERE TO MIDDLE PANEL
-        ImageButton card = (ImageButton) view;
-
-        //remove previous Parent of this cards View
-        this.removeOldView(view);
-
-        //get number of children in middle layout
-        LinearLayout middleLayout = (LinearLayout)findViewById(R.id.middle_pane);
-        int childCount = middleLayout.getChildCount();
-
-        //add card's view to middle layout
-        middleLayout.addView(view);
-
-        //gets relative layout of card
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)view.getLayoutParams();
-
-        //set this view to right of previously added one, if it's not the first one added
-//        if(childCount != 0){
-//            int lastChildId = middleLayout.getChildAt(childCount - 1).getId();
-//            //Log.d("CARD ID", "" + lastChildId);
-//            relLayoutParams.addRule(RelativeLayout.RIGHT_OF, lastChildId);
-//        }
-
-        //sets margin size of every even card added
-        if(childCount % 2 != 0){
-            layoutParams.setMargins(-30, 55, 0, 0);
-        }else{
-            layoutParams.setMargins(5, 0, 0, 0);
+    public void showCardsOnTable(ArrayList<Card> table){
+        for(Card card : table){
+            this.removeOldView(card);
         }
 
-        view.setLayoutParams(layoutParams);
+        for(Card card : table) {
+            LinearLayout middleLayout = (LinearLayout)findViewById(R.id.middle_pane);
+            int childCount = middleLayout.getChildCount();
+            middleLayout.addView(card);
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)card.getLayoutParams();
 
-        //flip card up
-        if(view instanceof Card){
-            ((Card)view).flipUp();
+            //sets margin size of every even card added
+            if (childCount % 2 != 0) {
+                layoutParams.setMargins(-30, 55, 0, 0);
+            } else {
+                layoutParams.setMargins(5, 0, 0, 0);
+            }
+
+            card.setLayoutParams(layoutParams);
+            card.flipUp();
         }
     }
 
-    public void refreshCardVews(ArrayList<Card> deck, ArrayList<Card> topHand, ArrayList<Card> bottomHand){
+    public void refreshCardVews(ArrayList<Card> deck, ArrayList<Card> topHand, ArrayList<Card> bottomHand, ArrayList<Card> table){
         this.showCardsInBottomPane(bottomHand);
         this.showCardsInTopPane(topHand);
         this.showDeck(deck);
+        this.showCardsOnTable(table);
     }
 
     public void showDeck(ArrayList<Card> deck){
