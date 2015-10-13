@@ -86,8 +86,7 @@ public class Model {
         attacker.moveCardToTable(card, this.table);
 
         this.phase = StepPhases.DEFEND;
-        Toast.makeText(GameActivity.context, this.defender.getName() + " defends"
-                , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(GameActivity.context, this.defender.getName() + " defends", Toast.LENGTH_SHORT).show();
     }
 
     public void defendPhase(Card card){
@@ -97,21 +96,19 @@ public class Model {
         }else{return; }
 
         this.phase = StepPhases.ADD;
-        Toast.makeText(GameActivity.context, this.attacker.getName() + " can add cards to table"
-                , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(GameActivity.context, this.attacker.getName() + " can add cards to table", Toast.LENGTH_SHORT).show();
     }
 
     //TODO after defend phase attacker can add cards (if have valid ones)
     private void addPhase(Card card) {
         if(!attacker.hasCard(card)){return;} //if it's other than attacker's card, leave it where it is
-
+        if(defender.hasNoCards()){return;}  //if defender has no cards in hand, attacker cannot add
         if(this.table.rankPresentOnTable(card)){
             attacker.moveCardToTable(card, this.table);
         }
 
         this.phase = StepPhases.DEFEND;
-        Toast.makeText(GameActivity.context, this.defender.getName() + " defends"
-                , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(GameActivity.context, this.defender.getName() + " defends", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -126,8 +123,7 @@ public class Model {
     }
 
     private void attackPhase() {
-        Toast.makeText(GameActivity.context, "You MUST make move with one of your cards"
-                , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(GameActivity.context, "You MUST make move with one of your cards", Toast.LENGTH_SHORT).show();
     }
 
     private void addPhase() {
@@ -157,8 +153,7 @@ public class Model {
         //this.switchAttackerAndDefender();
         this.phase = StepPhases.ATTACK;
 
-        Toast.makeText(GameActivity.context, this.attacker.getName() + " makes his move"
-                , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(GameActivity.context, this.attacker.getName() + " makes his move", Toast.LENGTH_SHORT).show();
     }
 
     private void switchAttackerAndDefender() {
@@ -215,8 +210,7 @@ public class Model {
                 this.defender = this.topHand;
             }
         }
-        Toast.makeText(GameActivity.context, this.attacker.getName() + " makes first move"
-                , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(GameActivity.context, this.attacker.getName() + " makes first move", Toast.LENGTH_SHORT).show();
     }
 
     private void checkWinner() {
@@ -236,7 +230,7 @@ public class Model {
         }else if(defenderWon && !attackerWon){
             Toast.makeText(GameActivity.context, defender.getName() + " wins the game"
                     , Toast.LENGTH_SHORT).show();
-        }else{
+        }else if(defenderWon && attackerWon){
             Toast.makeText(GameActivity.context, "Both players have no cards - it's a draw"
                     , Toast.LENGTH_SHORT).show();
         }

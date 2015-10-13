@@ -18,13 +18,13 @@ public class Discard {
             this.cards.add(tableCards.remove(0));
         }
 
-        for (Card c :this.cards) {
-            Log.d("DISCARD_D", c.toString());
-        }
-
-        for (Card c :table.getCards()) {
-            Log.d("DISCARD_T", c.toString());
-        }
+//        for (Card c :this.cards) {
+//            Log.d("DISCARD_D", c.toString());
+//        }
+//
+//        for (Card c :table.getCards()) {
+//            Log.d("DISCARD_T", c.toString());
+//        }
     }
 
     public ArrayList<Card> getCards() {

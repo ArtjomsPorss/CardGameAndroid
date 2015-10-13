@@ -49,7 +49,15 @@ public class Hand {
         if(this.cards.size() == 0){
             return true;
         }else{
+            return false;
+        }
+    }
+
+    public boolean hasCards(){
+        if(this.cards.size() > 0){
             return true;
+        }else{
+            return false;
         }
     }
 }
