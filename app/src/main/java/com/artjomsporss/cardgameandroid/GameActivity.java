@@ -27,6 +27,8 @@ public class GameActivity extends AppCompatActivity {
     private LinearLayout bottomHandPane;
     private RelativeLayout deckPane;
 
+    public static ImageButton turnButton;
+
     public static GameActivity view;
     public static Context context;
 
@@ -48,6 +50,8 @@ public class GameActivity extends AppCompatActivity {
         tablePane = (LinearLayout) findViewById(R.id.middle_pane);
         bottomHandPane = (LinearLayout) findViewById(R.id.bottom_pane);
         deckPane = (RelativeLayout) findViewById(R.id.deck_pane);
+        turnButton = (ImageButton) findViewById(R.id.tick_button);
+
         presenter = new Presenter(this.getApplicationContext(), this);
 
         view = this;
@@ -99,10 +103,12 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    public void refreshCardVews(ArrayList<Card> deck, ArrayList<Card> topHand, ArrayList<Card> bottomHand, ArrayList<Card> table){
+    public void refreshCardVews(ArrayList<Card> deck, ArrayList<Card> topHand, ArrayList<Card> bottomHand
+            , ArrayList<Card> discard, ArrayList<Card> table){
         this.showCardsInBottomPane(bottomHand);
         this.showCardsInTopPane(topHand);
         this.showDeck(deck);
+        this.showDiscard(discard);
         this.showCardsOnTable(table);
     }
 
@@ -126,6 +132,17 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         Log.d("TRUMPS-DECK", deck.get(deck.size() - 1).getRankStr() + deck.get(deck.size() - 1).getSuit());
+    }
+
+    /**
+     * Doesn't really shows discard pile. Removes Table view from cards that are moved
+     * from table to discard pile/
+     * @param discard ArrayList<Card>
+     */
+    public void showDiscard(ArrayList<Card> discard){
+        for(Card c : discard){
+            this.removeOldView(c);
+        }
     }
 
 

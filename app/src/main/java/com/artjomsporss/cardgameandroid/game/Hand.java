@@ -13,6 +13,7 @@ public class Hand {
     }
 
     private String name;
+
     public ArrayList<Card> getCards(){
         return this.cards;
     }
@@ -33,9 +34,22 @@ public class Hand {
         }
     }
 
+    //TODO move this method to Model, make classes less coupled
     public void moveCardToTable(Card card, Table table){
         if(cards.remove(card)) {
             table.putCardOnTable(card);
+        }
+    }
+
+    public void addCard(Card card){
+        this.cards.add(card);
+    }
+
+    public boolean hasNoCards(){
+        if(this.cards.size() == 0){
+            return true;
+        }else{
+            return true;
         }
     }
 }

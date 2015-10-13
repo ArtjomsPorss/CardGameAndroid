@@ -12,11 +12,11 @@ public class Table {
     private ArrayList<Card> cards = new ArrayList<Card>(36);
 
     public void putCardOnTable(Card card){
-        cards.add(card);
+        this.cards.add(card);
     }
 
     public ArrayList<Card> getCards() {
-        return cards;
+        return this.cards;
     }
 
     public boolean cardCanBeat(Card cardInHand) {
@@ -36,8 +36,14 @@ public class Table {
         }else{
             return false;
         }
-        //TODO to put checking logic
-
     }
 
+    public boolean rankPresentOnTable(Card cardToAdd){
+        for(Card cardOnTable : this.cards){
+            if(cardToAdd.getRankInt() == cardOnTable.getRankInt()){
+                return true;
+            }
+        }
+        return false;
+    }
 }

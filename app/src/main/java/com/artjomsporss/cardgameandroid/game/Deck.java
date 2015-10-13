@@ -121,6 +121,13 @@ public class Deck {
         }while("a".equals(deck.get(last).getRankStr()));
     }
 
+    public void removeTwentyCardsFromTheDeck(){
+        for (int i = 0; i <21; i++) {
+            this.deck.remove(0);
+        }
+    }
+
+
     /**
      * sets the trump card for this game
      */

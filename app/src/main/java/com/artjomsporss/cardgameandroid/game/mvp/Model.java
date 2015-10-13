@@ -45,6 +45,9 @@ public class Model {
         this.deck = new Deck(context);
         this.deck.shuffleDeck();
         this.trumps = this.deck.setTrump();
+
+        //TODO to remove - testing end of game situation
+        this.deck.removeTwentyCardsFromTheDeck();
     }
 
     /**
@@ -77,10 +80,9 @@ public class Model {
         }
     }
 
-
     //If card clicked belongs to attacker, move it to the table
     public void attackPhase(Card card){
-        if(defender.hasCard(card)){return;} //if it's defender's card, leave it where it is
+        if(!attacker.hasCard(card)){return;} //if it's other than attacker's card, leave it where it is
         attacker.moveCardToTable(card, this.table);
 
         this.phase = StepPhases.DEFEND;
@@ -89,7 +91,7 @@ public class Model {
     }
 
     public void defendPhase(Card card){
-        if(attacker.hasCard(card)){return;} // if it's attacker's card, do nothing
+        if(!defender.hasCard(card)){return;} // if it's other than defender's card, do nothing
         if(this.table.cardCanBeat(card)) {  //if card
             defender.moveCardToTable(card, this.table);
         }else{return; }
@@ -101,10 +103,79 @@ public class Model {
 
     //TODO after defend phase attacker can add cards (if have valid ones)
     private void addPhase(Card card) {
+        if(!attacker.hasCard(card)){return;} //if it's other than attacker's card, leave it where it is
+
+        if(this.table.rankPresentOnTable(card)){
+            attacker.moveCardToTable(card, this.table);
+        }
+
+        this.phase = StepPhases.DEFEND;
+        Toast.makeText(GameActivity.context, this.defender.getName() + " defends"
+                , Toast.LENGTH_SHORT).show();
     }
 
-    //TODO after onCardClick - to implement turn's phase-dependent actions on button click
-    public void buttonClicked(){}
+    /**
+     * below method which is called when turn action button is clicked
+     */
+    public void turnButtonClicked(){
+        switch(this.phase){
+            case ATTACK: attackPhase(); break;
+            case DEFEND: defendPhase(); break;
+            case ADD: addPhase(); break;
+        }
+    }
+
+    private void attackPhase() {
+        Toast.makeText(GameActivity.context, "You MUST make move with one of your cards"
+                , Toast.LENGTH_SHORT).show();
+    }
+
+    private void addPhase() {
+        this.discard.moveFromTableToDiscard(this.table);
+
+        //draw phase
+        this.deck.drawHand(this.attacker);
+        this.deck.drawHand(this.defender);
+
+        this.checkWinner();
+
+        this.switchAttackerAndDefender();
+        this.phase = StepPhases.ATTACK;
+    }
+
+    //TODO after defender presses action button, attacker can add until rules allow to add
+    private void defendPhase() {
+        this.defenderTakesCardsFromTable();
+
+        //draw phase
+        this.deck.drawHand(this.attacker);
+        this.deck.drawHand(this.defender);
+
+        this.checkWinner();
+
+        //if defending player takes cards, defender and attacker remains same
+        //this.switchAttackerAndDefender();
+        this.phase = StepPhases.ATTACK;
+
+        Toast.makeText(GameActivity.context, this.attacker.getName() + " makes his move"
+                , Toast.LENGTH_SHORT).show();
+    }
+
+    private void switchAttackerAndDefender() {
+        Hand tempAttacker = this.attacker;
+        this.attacker = this.defender;
+        this.defender = tempAttacker;
+    }
+
+    private void defenderTakesCardsFromTable() {
+        ArrayList<Card> table = this.table.getCards();
+        int tableSize = table.size();
+
+        for (int i = 0; i <tableSize; i++) {
+            this.defender.addCard(table.remove(0));
+        }
+
+    }
 
     public void determineAttacker(){
         ArrayList<Card> topHandCards = this.topHand.getCards();
@@ -127,9 +198,7 @@ public class Model {
                 }
             }
         }
-
         //Log.d("TOP/DOWN", topHandInt + " " + bottomHandInt);
-
         if(topHandInt < bottomHandInt){
             this.attacker = this.topHand;
             this.defender = this.bottomHand;
@@ -150,20 +219,48 @@ public class Model {
                 , Toast.LENGTH_SHORT).show();
     }
 
+    private void checkWinner() {
+        boolean attackerWon = false;
+        boolean defenderWon = false;
+
+        if(attacker.hasNoCards()){
+            attackerWon = true;
+        }
+        if(defender.hasNoCards()){
+            defenderWon = true;
+        }
+
+        if(attackerWon && !defenderWon){
+            Toast.makeText(GameActivity.context, attacker.getName() + " wins the game"
+                    , Toast.LENGTH_SHORT).show();
+        }else if(defenderWon && !attackerWon){
+            Toast.makeText(GameActivity.context, defender.getName() + " wins the game"
+                    , Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(GameActivity.context, "Both players have no cards - it's a draw"
+                    , Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     public ArrayList<Card> getDeckCards(){
-        return new ArrayList<Card>(this.deck.getCards());
+        return this.deck.getCards();
     }
 
     public ArrayList<Card> getTopHandCards() {
-        return new ArrayList<Card>(this.topHand.getCards());
+        return this.topHand.getCards();
     }
 
     public ArrayList<Card> getBottomHandCards() {
-        return new ArrayList<Card>(this.bottomHand.getCards());
+        return this.bottomHand.getCards();
+    }
+
+    public ArrayList<Card> getDiscard() {
+        return this.discard.getCards();
     }
 
     public ArrayList<Card> getTableCards() {
-        return new ArrayList<Card>(this.table.getCards());
+        return this.table.getCards();
     }
 
     public void setupTable() {
@@ -172,5 +269,9 @@ public class Model {
 
     public static char getTrumps() {
         return trumps;
+    }
+
+    public void setupDiscard() {
+        this.discard = new Discard();
     }
 }

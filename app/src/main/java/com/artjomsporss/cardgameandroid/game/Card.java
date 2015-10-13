@@ -109,4 +109,9 @@ public class Card extends ImageButton{
             default: this.rankDrawStr = this.rank; break;
         }
     }
+
+    @Override
+    public String toString(){
+        return this.getRankStr() + this.getSuit();
+    }
 }

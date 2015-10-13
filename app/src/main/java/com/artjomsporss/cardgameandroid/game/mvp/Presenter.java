@@ -21,24 +21,36 @@ public class Presenter {
         this.model = new Model();
         this.context = context;
 
+        addListenersToGameButtons();
+
         model.prepareDeck(this.context);
         model.prepareHands();
         model.setupTable();
+        model.setupDiscard();
 
-        this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards(), model.getTableCards());
+        this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards(), model.getDiscard(), model.getTableCards());
 
         model.determineAttacker();
     }
 
-    //TODO working on implementing on card click method
+    private void addListenersToGameButtons() {
+        this.view.turnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Presenter.this.onTurnButtonClick(v);
+            }
+        });
+    }
+
+
     public void onCardClick(View view){
-        this.model.cardClicked((Card)view);
-
-        //.. then redraw state in game
-        this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards(), model.getTableCards());
+        this.model.cardClicked((Card) view);
+        this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards(), model.getDiscard(), model.getTableCards());
     }
 
-    public void onActionButtonClick(View view){
-
+    public void onTurnButtonClick(View view){
+        this.model.turnButtonClicked();
+        this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards(), model.getDiscard(), model.getTableCards());
     }
+
 }

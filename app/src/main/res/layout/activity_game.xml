@@ -111,6 +111,7 @@
             android:layout_weight="0">
 
             <ImageButton
+                android:id="@+id/tick_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/tick_button"
@@ -119,19 +120,19 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tick_button"
+                android:background="@drawable/question_button"
                 android:layout_marginRight="5dp"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tick_button"
+                android:background="@drawable/question_button"
                 android:layout_marginRight="5dp"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tick_button"/>
+                android:background="@drawable/question_button"/>
         </LinearLayout>
     </LinearLayout>
 
