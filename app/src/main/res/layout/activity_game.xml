@@ -26,31 +26,27 @@
 
     <!-- contains top, middle and bottom Layouts with cards -->
     <LinearLayout
-        android:layout_columnWeight="4"
-        android:layout_width="wrap_content"
+        android:layout_width="400dp"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_marginRight="0dp">
 
 
-        <!--<HorizontalScrollView-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="63dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:gravity="left|top"-->
-        <!--android:id="@+id/top_pane"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_marginLeft="15dp">-->
-        <!--</HorizontalScrollView>-->
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="63dp"
-            android:orientation="horizontal"
-            android:gravity="left|top"
-            android:id="@+id/top_pane"
-            android:layout_weight="1"
-            android:layout_marginLeft="15dp">
-        </LinearLayout>
+        <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false"
+        android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:orientation="horizontal"
+                android:gravity="bottom"
+                android:id="@+id/top_pane"
+                android:layout_marginLeft="5dp"
+                android:paddingRight="20dp">
+            </LinearLayout>
+        </HorizontalScrollView>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -58,19 +54,26 @@
             android:orientation="horizontal"
             android:gravity="left|top"
             android:id="@+id/middle_pane"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_marginLeft="15dp">
         </LinearLayout>
 
-        <LinearLayout
+        <HorizontalScrollView
             android:layout_width="fill_parent"
-            android:layout_height="63dp"
-            android:id="@+id/bottom_pane"
-            android:orientation="horizontal"
-            android:gravity="left|bottom"
-            android:layout_weight="1"
-            android:layout_marginLeft="15dp">
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:scrollIndicators="top"
+            android:fadeScrollbars="false"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="63dp"
+                android:id="@+id/bottom_pane"
+                android:orientation="horizontal"
+                android:gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:paddingRight="20dp">
+            </LinearLayout>
+        </HorizontalScrollView>
     </LinearLayout>
 
 

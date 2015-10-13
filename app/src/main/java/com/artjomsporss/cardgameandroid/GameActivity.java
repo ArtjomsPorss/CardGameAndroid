@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -113,7 +114,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void showDeck(ArrayList<Card> deck){
-        if(deck.size() == 0){ return; }
+        if(deck.size() == 0){
+            //TODO show empty trump card here..
+            //get trump
+            //show trump image, not assigned to any arraylist
+            return;
+        }
         for (int i = 0; i < deck.size(); i++) {
             Card card = deck.get(i);
             removeOldView(card);
@@ -160,7 +166,7 @@ public class GameActivity extends AppCompatActivity {
 
             //set space between cards
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) c.getLayoutParams();
-            layoutParams.setMargins(0, 0, 3, 0);
+            layoutParams.setMargins(0, 0, 5, 0);
             c.setLayoutParams(layoutParams);
         }
     }
@@ -176,7 +182,7 @@ public class GameActivity extends AppCompatActivity {
 
             //set space between cards
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) c.getLayoutParams();
-            layoutParams.setMargins(0, 0, 10, 0);
+            layoutParams.setMargins(0, 0, 8, 0);
             c.setLayoutParams(layoutParams);
         }
     }
