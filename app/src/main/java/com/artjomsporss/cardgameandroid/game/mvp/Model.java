@@ -99,7 +99,7 @@ public class Model {
         //Toast.makeText(GameActivity.context, this.attacker.getName() + " can add cards to table", Toast.LENGTH_SHORT).show();
     }
 
-    //TODO after defend phase attacker can add cards (if have valid ones)
+
     private void addPhase(Card card) {
         if(!attacker.hasCard(card)){return;} //if it's other than attacker's card, leave it where it is
         if(defender.hasNoCards()){return;}  //if defender has no cards in hand, attacker cannot add

@@ -81,7 +81,6 @@ public class Card extends ImageButton{
             @Override
             public void onClick(View v) {
                 Presenter.presenter.onCardClick(v);
-                //TODO to change logic for the game
             }
         });
     }
