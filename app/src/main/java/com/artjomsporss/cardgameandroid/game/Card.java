@@ -6,9 +6,6 @@ import android.widget.ImageButton;
 
 import com.artjomsporss.cardgameandroid.game.mvp.Presenter;
 
-/**
- * Created by artash on 29/09/15.
- */
 public class Card extends ImageButton{
 
 
@@ -20,7 +17,13 @@ public class Card extends ImageButton{
     private int frontId;
     private int currentId;
 
-
+    /**
+     * Creates a card. Can be used to create dummy trump card to display in place of deck when deck runs out of cards.
+     * @param context getApplicationContext()
+     * @param rank or "trump" to load
+     * @param suit suit of the card
+     * @param id ImageButton's id
+     */
     public Card(Context context, String rank, char suit, int id) {
         super(context);
         super.setId(id);

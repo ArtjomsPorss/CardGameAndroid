@@ -114,12 +114,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void showDeck(ArrayList<Card> deck){
-        if(deck.size() == 0){
+/*        if(deck.size() == 0){
             //TODO show empty trump card here..
             //get trump
             //show trump image, not assigned to any arraylist
             return;
-        }
+        }*/
         for (int i = 0; i < deck.size(); i++) {
             Card card = deck.get(i);
             removeOldView(card);

@@ -9,15 +9,20 @@ import java.util.Collections;
  * Created by artash on 01/10/15.
  */
 public class Deck {
-
+    private Context context;
     private ArrayList<Card> deck = new ArrayList<Card>(36);
+
+    //used to be displayed instead of empty deck
+    private ArrayList<Card> trumpOnly = new ArrayList<Card>(1);
     private char trumps;
+
 
     /**
      * created deck of cards, assigns ID's to all card views
      * @param context
      */
     public Deck(Context context){
+        this.context = context;
         this.createDeck(context);
         this.assignIDsToCards();
     }
@@ -74,7 +79,6 @@ public class Deck {
     public void createDeck(Context context){
         char suit = ' ';
         String rank = " ";
-        int id = 0;
         for(int s = 0; s < 4; ++s){			//sets card suits
             switch(s){
                 case 0 : suit = 'h'; break;
@@ -95,7 +99,7 @@ public class Deck {
                 } else {
                     rank = Integer.toString(r);		// if rank is below 11, set it
                 }
-                id = Integer.parseInt(s + "" + r);
+                int id = Integer.parseInt(s + "" + r);
 
                 deck.add(new Card(context, rank, suit, id));
             }
@@ -143,9 +147,20 @@ public class Deck {
     }
 
     /**
-     * @return copy of deck ArrayList<Card>
+     * @return deck if it has cards, or new arraylist containing only one card - trump
      */
     public ArrayList<Card> getCards(){
-        return this.deck;
+        ArrayList<Card> cardList;
+        if(this.deck.size() > 0){
+            cardList = this.deck;
+        }else{
+            cardList = this.trumpOnly;
+            if(cardList.size() == 0){
+                cardList.add(new Card(this.context, "trump", this.getTrumps(), -1));
+            }
+        }
+
+
+        return cardList;
     }
 }

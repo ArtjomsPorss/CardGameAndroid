@@ -16,9 +16,6 @@ import com.artjomsporss.cardgameandroid.game.Table;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by artash on 01/10/15.
- */
 public class Model {
     private Deck deck;
     private Hand topHand;
@@ -82,31 +79,45 @@ public class Model {
 
     //If card clicked belongs to attacker, move it to the table
     public void attackPhase(Card card){
-        if(!attacker.hasCard(card)){return;} //if it's other than attacker's card, leave it where it is
-        attacker.moveCardToTable(card, this.table);
+        if(!attacker.hasCard(card)){
+            Log.d("TEST", "attack-card not in attacker's hand");
+            return;} //if it's other than attacker's card, leave it where it is
 
+        Log.d("TEST", "attack-moving attacker's card to table");
+        attacker.moveCardToTable(card, this.table);
+        Log.d("TEST", "attack->defend");
         this.phase = StepPhases.DEFEND;
         //Toast.makeText(GameActivity.context, this.defender.getName() + " defends", Toast.LENGTH_SHORT).show();
     }
 
     public void defendPhase(Card card){
-        if(!defender.hasCard(card)){return;} // if it's other than defender's card, do nothing
-        if(this.table.cardCanBeat(card)) {  //if card
+        if(!defender.hasCard(card)){
+            Log.d("TEST", "defend-card not in defender's hand");
+            return;} // if it's other than defender's card, do nothing
+        if(this.table.cardCanBeat(card)) {  //if card can beat last card on table, move it to table
+            Log.d("TEST", "defend-card beats table's card");
             defender.moveCardToTable(card, this.table);
         }else{return; }
-
+        Log.d("TEST", "defend->add");
         this.phase = StepPhases.ADD;
         //Toast.makeText(GameActivity.context, this.attacker.getName() + " can add cards to table", Toast.LENGTH_SHORT).show();
     }
 
 
     private void addPhase(Card card) {
-        if(!attacker.hasCard(card)){return;} //if it's other than attacker's card, leave it where it is
-        if(defender.hasNoCards()){return;}  //if defender has no cards in hand, attacker cannot add
-        if(this.table.rankPresentOnTable(card)){
+        if(!attacker.hasCard(card)){
+            Log.d("TEST", "add-card not in attacker's hand");
+            return;} //if it's other than attacker's card, leave it where it is
+        if(defender.hasNoCards()){
+            Log.d("TEST", "add-defender has no cards");
+            return;}  //if defender has no cards in hand, attacker cannot add
+        if(this.table.rankPresentOnTable(card)){    //if card's rank is present on table - can add
+            Log.d("TEST", "add-moving card to table");
             attacker.moveCardToTable(card, this.table);
+        } else {
+            return;
         }
-
+        Log.d("TEST", "add->defend");
         this.phase = StepPhases.DEFEND;
         //Toast.makeText(GameActivity.context, this.defender.getName() + " defends", Toast.LENGTH_SHORT).show();
     }
