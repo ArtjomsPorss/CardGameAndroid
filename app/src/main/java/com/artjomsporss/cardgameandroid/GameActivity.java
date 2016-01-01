@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.artjomsporss.cardgameandroid.game.Card;
 import com.artjomsporss.cardgameandroid.game.mvp.Presenter;
+import com.artjomsporss.cardgameandroid.multiplayer.Connector;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class GameActivity extends AppCompatActivity {
     private LinearLayout tablePane;
     private LinearLayout bottomHandPane;
     private RelativeLayout deckPane;
+    private TextView chatView;
 
     public static ImageButton turnButton;
 
@@ -38,12 +40,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        TextView chatView = (TextView)findViewById(R.id.chat_view);
-        String chatText = "John: Hi!"
-                + "\nSarah: What's up?"
-                + "\nJohn: just came in for couple games.."
-                + "\nSarah: cool";
-        chatView.setText(chatText);
+        chatView = (TextView)findViewById(R.id.chat_view);
 
         this.context = this.getApplicationContext();
 
@@ -56,6 +53,7 @@ public class GameActivity extends AppCompatActivity {
         presenter = new Presenter(this.getApplicationContext(), this);
 
         view = this;
+      Connector c = new Connector();
     }
 
     @Override
@@ -192,6 +190,16 @@ public class GameActivity extends AppCompatActivity {
         if(parent != null){
             parent.removeView(v);
         }
+    }
+
+    public void showTextInChat(String text){
+      final String fText = text;
+        runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            chatView.setText(fText);
+          }
+        });
     }
 }
 
