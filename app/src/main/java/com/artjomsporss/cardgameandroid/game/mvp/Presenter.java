@@ -46,12 +46,12 @@ public class Presenter {
 
     public void onCardClick(View view){
         this.model.cardClicked((Card) view);
-        Connector.messageInterpreter.interpretOutcoming("Card-" + ((Card) view).getRankStr() + ((Card) view).getSuit());
+        Connector.messageInterpreter.interpretOutcoming(/*"Card-" +*/ ((Card) view).getRankStr() + ((Card) view).getSuit());
         this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards(), model.getDiscard(), model.getTableCards());
     }
 
     public void onTurnButtonClick(View view){
-        Connector.messageInterpreter.interpretOutcoming("Button-Turn");
+        Connector.messageInterpreter.interpretOutcoming(/*"Button-" + */"Turn");
         this.model.turnButtonClicked();
         this.view.refreshCardVews(model.getDeckCards(), model.getTopHandCards(), model.getBottomHandCards(), model.getDiscard(), model.getTableCards());
     }

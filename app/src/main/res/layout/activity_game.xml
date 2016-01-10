@@ -95,7 +95,8 @@
             android:background="#1f4817"
             android:elegantTextHeight="false"
             android:padding="5dp"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:textSize="50dp" />
 
         <!-- deck and trump will be in here -->
         <RelativeLayout
